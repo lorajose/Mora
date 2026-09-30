@@ -1,0 +1,49 @@
+{
+  "sections": {
+    "mora": {
+      "type": "mora-launch",
+      "settings": {}
+    },
+    "products": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "THE COLLECTION",
+        "collection": "new-drop",
+        "products_to_show": 8
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "JOIN THE COLLECTIVE",
+            "heading_size": "h2"
+          }
+        },
+        "paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Subscribe for collection announcements and news from MORA.</p>"
+          }
+        },
+        "email": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "paragraph",
+        "email"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "mora",
+    "products",
+    "newsletter"
+  ]
+}
