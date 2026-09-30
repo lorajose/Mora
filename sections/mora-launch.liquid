@@ -1,52 +1,92 @@
-<section class="mora-launch">
+<section class="mora-launch" id="MoraLaunch-{{ section.id }}">
   <div class="mora-launch__visual">
     {% if section.settings.image != blank %}
       {{ section.settings.image | image_url: width: 2400 | image_tag: widths: '600, 1000, 1600, 2400', sizes: '100vw', loading: 'eager', class: 'mora-launch__image' }}
     {% endif %}
+    {% if section.settings.video != blank %}
+      <div class="mora-launch__video">{{ section.settings.video | video_tag: autoplay: false, loop: true, muted: true, controls: false, playsinline: true, preload: 'none' }}</div>
+      <button class="mora-launch__motion" type="button" hidden>PLAY BACKGROUND VIDEO</button>
+    {% endif %}
     <div class="mora-launch__content">
-      <p class="mora-launch__eyebrow">{{ section.settings.eyebrow | escape }}</p>
-      <h1>{{ section.settings.heading | escape }}</h1>
-      <p>{{ section.settings.description | escape }}</p>
-      {% if section.settings.collection != blank %}
-        <a class="mora-launch__button" href="{{ section.settings.collection.url }}">{{ section.settings.button_label | escape }}</a>
-      {% endif %}
+      <p class="mora-launch__eyebrow">COLLECTIVE BY MORA</p>
+      <h1 class="mora-launch__wordmark">MORA</h1>
+      <p class="mora-launch__chapter">{{ section.settings.eyebrow | escape }}</p>
+      <p class="mora-launch__description">{{ section.settings.description | escape }}</p>
+      <nav class="mora-launch__links" aria-label="MORA collection navigation">
+        {% if section.settings.collection != blank %}<a href="{{ section.settings.collection.url }}">{{ section.settings.button_label | escape }}</a>{% endif %}
+        {% if section.settings.show_shop %}<a href="{{ routes.all_products_collection_url }}">SHOP ALL</a>{% endif %}
+        <button type="button" data-mora-join>JOIN THE MORA FAMILY</button>
+        {% if shop.customer_accounts_enabled %}<a href="{{ routes.account_url }}">ACCOUNT / SIGN IN</a>{% endif %}
+      </nav>
+      <p class="mora-launch__status">{{ section.settings.launch_note | escape }}</p>
     </div>
-  </div>
-  <div class="mora-launch__collective">
-    <div><p class="mora-launch__eyebrow">COLLECTIVE BY MORA</p><h2>{{ section.settings.membership_heading | escape }}</h2><p>{{ section.settings.membership_text | escape }}</p></div>
-    <a class="mora-launch__button mora-launch__button--dark" href="{{ routes.account_url }}">MY ACCOUNT</a>
   </div>
 </section>
 {% style %}
-.mora-launch { background: #f4f1ea; color: #191919; }
-.mora-launch__visual { min-height: 72vh; position: relative; display: flex; align-items: flex-end; background: #282823; color: #fff; }
-.mora-launch__visual:after { content: ''; position: absolute; inset: 0; background: linear-gradient(transparent,rgba(0,0,0,.6)); pointer-events: none; }
-.mora-launch__image { position: absolute; width: 100%; height: 100%; object-fit: cover; }
-.mora-launch__content { position: relative; z-index: 1; padding: clamp(28px,6vw,90px); max-width: 850px; }
-.mora-launch__eyebrow { letter-spacing: .2em; font-size: 12px; }
-.mora-launch h1 { color: inherit; font-size: clamp(48px,9vw,120px); line-height: .95; letter-spacing: -.05em; margin: 20px 0; }
-.mora-launch h2 { color: inherit; font-size: clamp(28px,4vw,48px); margin: 12px 0; }
-.mora-launch__button { display: inline-block; border: 1px solid currentColor; color: inherit; padding: 14px 24px; text-decoration: none; font-size: 13px; letter-spacing: .12em; margin-top: 16px; }
-.mora-launch__button:hover { background: #fff; color: #191919; }
-.mora-launch__button:focus-visible { outline: 3px solid currentColor; outline-offset: 5px; }
-.mora-launch__collective { padding: clamp(28px,6vw,80px); display: flex; gap: 24px; justify-content: space-between; align-items: center; }
-.mora-launch__collective p { max-width: 600px; }
-.mora-launch__button--dark:hover { background: #191919; color: #fff; }
-@media(max-width:749px) { .mora-launch__collective { flex-direction: column; align-items: flex-start; } .mora-launch__visual { min-height: 60vh; } }
+.mora-launch{background:#eeece4;color:#24261f}
+.mora-launch__visual{min-height:calc(100svh - 100px);position:relative;display:grid;place-items:center;text-align:center;overflow:hidden;padding:60px 24px}
+.mora-launch__image,.mora-launch__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mora-launch__video video{width:100%;height:100%;object-fit:cover}
+{% if section.settings.image != blank or section.settings.video != blank %}
+#MoraLaunch-{{ section.id }} .mora-launch__visual{color:#fff;background:#252720}
+#MoraLaunch-{{ section.id }} .mora-launch__visual:after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.4);pointer-events:none}
+{% endif %}
+.mora-launch__content{position:relative;z-index:1;max-width:720px}
+.mora-launch__eyebrow,.mora-launch__chapter,.mora-launch__status{font-family:var(--font-body-family);font-size:11px;letter-spacing:.2em}
+.mora-launch__wordmark{font-family:'Volta Std Round Bold',Rockwell,Georgia,serif!important;font-weight:700;color:inherit;font-size:clamp(76px,15vw,170px);line-height:1;letter-spacing:-.045em;margin:26px 0 30px}
+.mora-launch__description{font-size:14px;max-width:360px;margin:16px auto 30px;line-height:1.6}
+.mora-launch__links{display:flex;flex-direction:column;align-items:center;gap:8px}
+.mora-launch__links a,.mora-launch__links button{display:inline-block;background:transparent;border:0;color:inherit;font:inherit;font-size:12px;letter-spacing:.12em;text-decoration:none;padding:10px 16px;cursor:pointer}
+.mora-launch__links [data-mora-join]{border:1px solid currentColor;margin:8px 0;padding:15px 24px}
+.mora-launch__links a:hover{text-decoration:underline;text-underline-offset:5px}
+.mora-launch__links button:hover{opacity:.75}
+.mora-launch__links :focus-visible,.mora-launch__motion:focus-visible{outline:3px solid currentColor;outline-offset:4px}
+.mora-launch__status{margin-top:36px;font-size:10px}
+.mora-launch__motion{position:absolute;bottom:16px;right:16px;z-index:2;background:#191919;color:#fff;border:1px solid #fff;padding:10px;font-size:10px;cursor:pointer}
+@media(max-width:749px){.mora-launch__visual{min-height:calc(100svh - 80px);padding:40px 20px}.mora-launch__wordmark{font-size:clamp(72px,23vw,120px)}}
 {% endstyle %}
+<script>
+(() => {
+  const setup = root => {
+    if (!root || root.dataset.initialized) return;
+    root.dataset.initialized='true';
+    root.querySelector('[data-mora-join]').addEventListener('click', () => {
+      const trigger=document.querySelector('[data-family-open]');
+      if(trigger) trigger.click();
+      else {
+        const newsletter=document.querySelector('.newsletter');
+        if(newsletter){newsletter.scrollIntoView({behavior:'smooth'});newsletter.querySelector('input[type=email]')?.focus({preventScroll:true});}
+      }
+    });
+    const video=root.querySelector('video');
+    const control=root.querySelector('.mora-launch__motion');
+    if(!video || !control) return;
+    control.hidden=false;
+    video.addEventListener('play',()=>control.textContent='PAUSE BACKGROUND VIDEO');
+    video.addEventListener('pause',()=>control.textContent='PLAY BACKGROUND VIDEO');
+    control.addEventListener('click',()=>{if(video.paused)video.play().catch(()=>{});else video.pause();});
+    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+    reduced.addEventListener('change',event=>{if(event.matches)video.pause();});
+    if(!reduced.matches && !(window.Shopify && Shopify.designMode)) video.play().catch(()=>{});
+  };
+  setup(document.getElementById('MoraLaunch-{{ section.id }}'));
+  document.addEventListener('shopify:section:load',event=>setup(event.target.querySelector('.mora-launch')));
+})();
+</script>
 {% schema %}
 {
-  "name": "MORA launch",
-  "settings": [
-    {"type":"image_picker","id":"image","label":"Campaign photograph"},
-    {"type":"text","id":"eyebrow","label":"Launch label","default":"MORA — FIRST COLLECTION"},
-    {"type":"text","id":"heading","label":"Heading","default":"A NEW CHAPTER."},
-    {"type":"text","id":"description","label":"Description","default":"Discover the first collection by MORA."},
-    {"type":"collection","id":"collection","label":"Launch collection"},
-    {"type":"text","id":"button_label","label":"Button label","default":"EXPLORE THE COLLECTION"},
-    {"type":"text","id":"membership_heading","label":"Collective heading","default":"Be part of the collective."},
-    {"type":"text","id":"membership_text","label":"Collective description","default":"Create your account to keep your orders and your next chapter with MORA in one place."}
-  ],
-  "presets": [{"name":"MORA launch"}]
+"name":"MORA launch",
+"settings":[
+{"type":"image_picker","id":"image","label":"Campaign image / video fallback"},
+{"type":"video","id":"video","label":"Optional Shopify background video"},
+{"type":"text","id":"eyebrow","label":"Chapter label","default":"THE FIRST CHAPTER"},
+{"type":"text","id":"description","label":"Description","default":"A new chapter is coming. Be part of the MORA family from the beginning."},
+{"type":"collection","id":"collection","label":"Launch collection"},
+{"type":"text","id":"button_label","label":"Collection link label","default":"EXPLORE THE COLLECTION"},
+{"type":"checkbox","id":"show_shop","label":"Show Shop All (enable when products are ready)","default":false},
+{"type":"text","id":"launch_note","label":"Launch note","default":"FIRST COLLECTION — COMING SOON"},
+{"type":"paragraph","content":"Volta uses a provisional serif fallback until the licensed webfont is added. The family button opens the MORA family invitation. This section does not enforce VIP purchasing restrictions."}
+],
+"presets":[{"name":"MORA launch"}]
 }
 {% endschema %}
