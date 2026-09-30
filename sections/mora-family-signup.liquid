@@ -1,0 +1,103 @@
+{% if section.settings.enabled %}
+<div class="mora-family" id="MoraFamily-{{ section.id }}">
+  <button type="button" class="mora-family__reopen" data-family-open>JOIN THE MORA FAMILY</button>
+  <dialog class="mora-family__dialog" aria-labelledby="MoraFamilyTitle-{{ section.id }}">
+    <button type="button" class="mora-family__close" data-family-close aria-label="Close invitation">×</button>
+    <div class="mora-family__grid">
+      <div class="mora-family__art">
+        {% if section.settings.image != blank %}
+          {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400, 800, 1200', sizes: '(min-width: 750px) 400px, 100vw' }}
+        {% else %}
+          <span>MORA</span><p>COLLECTIVE BY MORA</p>
+        {% endif %}
+      </div>
+      <div class="mora-family__body">
+        <p class="mora-family__eyebrow">THE COLLECTIVE</p>
+        <h2 id="MoraFamilyTitle-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+        <p>{{ section.settings.description | escape }}</p>
+        {% form 'customer', id: 'MoraFamilySignup', class: 'mora-family__form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter,mora-family">
+          {% if form.posted_successfully? %}
+            <p role="status" data-family-result>Thank you for joining! Check your inbox for any confirmation email.</p>
+          {% else %}
+            {% if form.errors %}<div role="alert" data-family-result>{{ form.errors | default_errors }}</div>{% endif %}
+            <label for="MoraFamilyEmail-{{ section.id }}">Email address</label>
+            <input id="MoraFamilyEmail-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" required value="{{ form.email | escape }}">
+            <p class="mora-family__consent">By selecting “Join the family”, you subscribe to MORA emails about collections and offers. You can unsubscribe anytime.
+            {% if shop.privacy_policy != blank %}<a href="{{ shop.privacy_policy.url }}">Privacy policy</a>.{% endif %}</p>
+            <button type="submit" class="mora-family__submit">JOIN THE FAMILY</button>
+          {% endif %}
+        {% endform %}
+        {% if shop.customer_accounts_enabled %}
+          <div class="mora-family__account">
+            <p>Keep your orders together with a MORA account.</p>
+            {% if section.settings.legacy_accounts %}
+              <a href="{{ routes.account_register_url }}">CREATE ACCOUNT</a>
+            {% else %}
+              <a href="{{ routes.account_url }}">CREATE ACCOUNT / SIGN IN</a>
+            {% endif %}
+          </div>
+        {% endif %}
+        <button type="button" class="mora-family__dismiss" data-family-close>No, thanks</button>
+      </div>
+    </div>
+  </dialog>
+</div>
+{% style %}
+.mora-family__reopen{display:block;margin:24px auto;padding:14px 24px;background:#191919;color:#fff;border:1px solid #191919;cursor:pointer}
+.mora-family__dialog{padding:0;border:0;background:#f4f1ea;color:#191919;width:min(860px,calc(100% - 32px));max-height:90dvh;overflow:auto}
+.mora-family__dialog::backdrop{background:rgba(0,0,0,.6)}
+.mora-family__close{position:absolute;top:10px;right:12px;width:44px;height:44px;background:#f4f1ea;color:#191919;border:0;font-size:32px;cursor:pointer;z-index:1}
+.mora-family__grid{display:grid;grid-template-columns:1fr 1fr}
+.mora-family__art{background:#252720;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:460px}
+.mora-family__art span{font-family:var(--font-heading-family);font-size:70px;font-weight:bold}
+.mora-family__art p{font-size:11px;letter-spacing:.15em}
+.mora-family__art img{width:100%;height:100%;object-fit:cover}
+.mora-family__body{padding:52px 32px 28px}
+.mora-family__body h2{color:inherit;font-size:32px;line-height:1.15}
+.mora-family__eyebrow{font-size:11px;letter-spacing:.2em}
+.mora-family__form label{display:block;font-size:13px;margin-bottom:8px}
+.mora-family__form input[type=email]{width:100%;padding:14px;background:transparent;border:1px solid #666;border-radius:0;font:inherit;color:inherit}
+.mora-family__consent{font-size:12px;line-height:1.5}
+.mora-family__submit{width:100%;padding:16px;background:#191919;color:#fff;border:0;font-weight:bold;cursor:pointer}
+.mora-family__account{margin-top:20px;border-top:1px solid #ccc;padding-top:12px;font-size:13px}
+.mora-family a{color:inherit;text-underline-offset:4px}
+.mora-family__dismiss{display:block;margin:20px auto 0;background:transparent;border:0;color:inherit;text-decoration:underline;cursor:pointer}
+.mora-family button:focus-visible,.mora-family a:focus-visible,.mora-family input:focus-visible{outline:3px solid #82724b;outline-offset:3px}
+@media(max-width:749px){.mora-family__grid{grid-template-columns:1fr}.mora-family__art{min-height:130px;max-height:180px;overflow:hidden}.mora-family__art span{font-size:48px}.mora-family__body{padding:26px 24px}.mora-family__body h2{font-size:26px}}
+{% endstyle %}
+<script>
+(() => {
+  const setup = (root) => {
+    if (!root || root.dataset.initialized) return;
+    root.dataset.initialized = 'true';
+    const dialog = root.querySelector('dialog');
+    if (!dialog.showModal) return;
+    const key = 'mora-family-dismissed-v1';
+    const open = () => { if (!dialog.open) dialog.showModal(); };
+    const remember = () => { try { sessionStorage.setItem(key, '1'); } catch (_) {} };
+    root.querySelector('[data-family-open]').addEventListener('click', open);
+    root.querySelectorAll('[data-family-close]').forEach(button => button.addEventListener('click', () => dialog.close()));
+    dialog.addEventListener('close', remember);
+    dialog.addEventListener('click', event => { if (event.target === dialog) { const r = dialog.getBoundingClientRect(); if(event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) dialog.close(); } });
+    if (root.querySelector('[data-family-result]')) { open(); return; }
+    if (window.Shopify && Shopify.designMode) return;
+    let dismissed = false;
+    try { dismissed = sessionStorage.getItem(key) === '1'; } catch (_) {}
+    if (!dismissed) setTimeout(() => { if (root.isConnected && !document.querySelector('dialog[open]')) open(); }, 6000);
+  };
+  setup(document.getElementById('MoraFamily-{{ section.id }}'));
+  document.addEventListener('shopify:section:load', event => setup(event.target.querySelector('.mora-family')));
+})();
+</script>
+{% endif %}
+{% schema %}
+{"name":"MORA family signup","settings":[
+{"type":"checkbox","id":"enabled","label":"Enable family invitation","default":true},
+{"type":"image_picker","id":"image","label":"Optional MORA photograph"},
+{"type":"text","id":"heading","label":"Heading","default":"JOIN THE MORA FAMILY"},
+{"type":"text","id":"description","label":"Description","default":"Be part of our first chapter. Subscribe for new collections, launch announcements and MORA news."},
+{"type":"checkbox","id":"legacy_accounts","label":"Use legacy customer registration","default":false},
+{"type":"paragraph","content":"Enable customer accounts in Shopify Settings. Email subscription and account creation are separate. SMS and VIP purchase access require additional configuration."}
+]}
+{% endschema %}
