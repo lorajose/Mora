@@ -1,0 +1,35 @@
+name: Bootstrap MORA theme
+on:
+  push:
+    paths:
+      - '.github/workflows/bootstrap-dawn.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import Dawn once
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f layout/theme.liquid ]; then
+            echo "Theme already initialized."
+            exit 0
+          fi
+          git clone --depth 1 https://github.com/Shopify/dawn.git /tmp/mora-dawn
+          git -C /tmp/mora-dawn rev-parse HEAD > DAWN_VERSION.txt
+          cp -R /tmp/mora-dawn/assets /tmp/mora-dawn/config /tmp/mora-dawn/layout /tmp/mora-dawn/locales /tmp/mora-dawn/snippets /tmp/mora-dawn/templates .
+          cp -R /tmp/mora-dawn/sections/. sections/
+          cp /tmp/mora-dawn/LICENSE.md LICENSE.md
+          cp mora-homepage.json templates/index.json
+          python3 -m json.tool templates/index.json > /dev/null
+          test -f sections/mora-launch.liquid
+          test -f layout/theme.liquid
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets config layout locales snippets templates sections LICENSE.md DAWN_VERSION.txt
+          git commit -m "Import official Dawn and install MORA launch homepage"
+          git push origin HEAD:main
