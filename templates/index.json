@@ -10,7 +10,8 @@
         "title": "THE COLLECTION",
         "collection": "new-drop",
         "products_to_show": 8
-      }
+      },
+      "disabled": true
     },
     "newsletter": {
       "type": "newsletter",
