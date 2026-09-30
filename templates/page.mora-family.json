@@ -1,0 +1,33 @@
+{
+  "sections": {
+    "family": {
+      "type": "mora-membership",
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "STAY IN THE FAMILY",
+            "heading_size": "h2"
+          }
+        },
+        "email": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "email"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "family",
+    "newsletter"
+  ]
+}
