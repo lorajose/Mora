@@ -9,7 +9,10 @@
     {% endif %}
     <div class="mora-launch__content">
       <p class="mora-launch__eyebrow">COLLECTIVE BY MORA</p>
-      <h1 class="mora-launch__wordmark">MORA</h1>
+      <div class="mora-launch__brand{% if section.settings.animate_brand %} mora-launch__brand--animated{% endif %}">
+        <div class="mora-launch__symbol" aria-hidden="true"><img src="{{ 'mora-symbol.png' | asset_url }}" width="2048" height="2048" alt="" loading="eager" fetchpriority="high"></div>
+        <h1 class="mora-launch__wordmark"><img src="{{ 'mora-wordmark.png' | asset_url }}" width="2048" height="192" alt="MORA" loading="eager" fetchpriority="high"></h1>
+      </div>
       <p class="mora-launch__chapter">{{ section.settings.eyebrow | escape }}</p>
       <p class="mora-launch__description">{{ section.settings.description | escape }}</p>
       <nav class="mora-launch__links" aria-label="MORA collection navigation">
@@ -31,9 +34,22 @@
 #MoraLaunch-{{ section.id }} .mora-launch__visual{color:#fff;background:#252720}
 #MoraLaunch-{{ section.id }} .mora-launch__visual:after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.4);pointer-events:none}
 {% endif %}
-.mora-launch__content{position:relative;z-index:1;max-width:720px}
+.mora-launch__content{position:relative;z-index:1;width:100%;max-width:720px}
 .mora-launch__eyebrow,.mora-launch__chapter,.mora-launch__status{font-family:var(--font-body-family);font-size:11px;letter-spacing:.2em}
-.mora-launch__wordmark{font-family:'Volta Std Round Bold',Rockwell,Georgia,serif!important;font-weight:700;color:inherit;font-size:clamp(76px,15vw,170px);line-height:1;letter-spacing:-.045em;margin:26px 0 30px}
+.mora-launch__brand{perspective:1000px;margin:20px auto 32px}
+.mora-launch__symbol{width:clamp(180px,27vw,300px);margin:0 auto;transform-style:preserve-3d}
+.mora-launch__symbol img{display:block;width:100%;height:auto;filter:brightness(0)}
+.mora-launch__wordmark{margin:10px auto 0;line-height:1;width:min(90%,520px)}
+.mora-launch__wordmark img{display:block;width:100%;height:auto;filter:brightness(0)}
+.mora-launch__brand--animated .mora-launch__symbol{animation:mora-symbol-arrive 1.5s cubic-bezier(.16,1,.3,1) both,mora-symbol-settle 3s ease-in-out 1.5s both}
+.mora-launch__brand--animated .mora-launch__wordmark{animation:mora-name-arrive 1.4s cubic-bezier(.16,1,.3,1) both}
+@keyframes mora-symbol-arrive{from{opacity:.15;transform:translateY(28px) rotateY(-65deg) rotateZ(-8deg) scale(.82)}to{opacity:1;transform:translateY(0) rotateY(0) rotateZ(0) scale(1)}}
+@keyframes mora-symbol-settle{0%,100%{transform:translateY(0) rotateY(0)}45%{transform:translateY(-7px) rotateY(12deg)}70%{transform:translateY(-3px) rotateY(-5deg)}}
+@keyframes mora-name-arrive{from{opacity:.15;transform:translateY(16px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(prefers-reduced-motion:reduce){.mora-launch__brand--animated .mora-launch__symbol,.mora-launch__brand--animated .mora-launch__wordmark{animation:none}}
+{% if section.settings.image != blank or section.settings.video != blank %}
+#MoraLaunch-{{ section.id }} .mora-launch__brand img{filter:brightness(0) invert(1)}
+{% endif %}
 .mora-launch__description{font-size:14px;max-width:360px;margin:16px auto 30px;line-height:1.6}
 .mora-launch__links{display:flex;flex-direction:column;align-items:center;gap:8px}
 .mora-launch__links a,.mora-launch__links button{display:inline-block;background:transparent;border:0;color:inherit;font:inherit;font-size:12px;letter-spacing:.12em;text-decoration:none;padding:10px 16px;cursor:pointer}
@@ -43,7 +59,7 @@
 .mora-launch__links :focus-visible,.mora-launch__motion:focus-visible{outline:3px solid currentColor;outline-offset:4px}
 .mora-launch__status{margin-top:36px;font-size:10px}
 .mora-launch__motion{position:absolute;bottom:16px;right:16px;z-index:2;background:#191919;color:#fff;border:1px solid #fff;padding:10px;font-size:10px;cursor:pointer}
-@media(max-width:749px){.mora-launch__visual{min-height:calc(100svh - 80px);padding:40px 20px}.mora-launch__wordmark{font-size:clamp(72px,23vw,120px)}}
+@media(max-width:749px){.mora-launch__visual{min-height:calc(100svh - 80px);padding:40px 20px}.mora-launch__symbol{width:210px}.mora-launch__wordmark{width:min(90%,380px)}}
 {% endstyle %}
 <script>
 (() => {
@@ -77,6 +93,7 @@
 {
 "name":"MORA launch",
 "settings":[
+{"type":"checkbox","id":"animate_brand","label":"Animate MORA entrance","default":true},
 {"type":"image_picker","id":"image","label":"Campaign image / video fallback"},
 {"type":"video","id":"video","label":"Optional Shopify background video"},
 {"type":"text","id":"eyebrow","label":"Chapter label","default":"THE FIRST CHAPTER"},
@@ -85,7 +102,7 @@
 {"type":"text","id":"button_label","label":"Collection link label","default":"EXPLORE THE COLLECTION"},
 {"type":"checkbox","id":"show_shop","label":"Show Shop All (enable when products are ready)","default":false},
 {"type":"text","id":"launch_note","label":"Launch note","default":"FIRST COLLECTION — COMING SOON"},
-{"type":"paragraph","content":"Volta uses a provisional serif fallback until the licensed webfont is added. The family button opens the MORA family invitation. This section does not enforce VIP purchasing restrictions."}
+{"type":"paragraph","content":"The MORA symbol and wordmark use the original brand artwork. The entrance finishes within five seconds and respects reduced motion. The family button opens the MORA family invitation. This section does not enforce VIP purchasing restrictions."}
 ],
 "presets":[{"name":"MORA launch"}]
 }
