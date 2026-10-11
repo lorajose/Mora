@@ -562,6 +562,13 @@
     "preview": "FIRST LOOK",
     "ranking": "Most voted designs receive launch priority. Final release timing depends on production readiness.",
     "stars": "stars",
-    "refresh": "Refresh family results"
+    "refresh": "Refresh family results",
+    "explore": "Explore details",
+    "close": "Close viewer",
+    "zoom": "Zoom image",
+    "fit": "Fit image",
+    "rotate": "View in 360°",
+    "angles": "Front and back views",
+    "rotate_hint": "Drag to rotate. Pinch or scroll to zoom."
   }
 }

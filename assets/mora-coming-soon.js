@@ -69,6 +69,7 @@
         for(const c of d.comments||[]){const quote=this.el('blockquote','mora-soon__comment',c.text);quote.append(this.el('cite','',this.l.family));discussion.append(quote);}
         const form=this.el('form');form.dataset.design=d.id;const field=this.el('textarea');field.name='comment';field.maxLength=1000;field.minLength=3;field.required=true;field.disabled=!this.ready||!this.member||this.busy;field.setAttribute('aria-label',this.l.comment);field.placeholder=this.l.comment_hint;form.append(field);const submit=this.button(this.l.submit,'submit',d.id);submit.type='submit';submit.disabled=field.disabled;form.append(submit);discussion.append(form);details.append(discussion);
       }
+      const explore=this.button(this.l.explore,'explore',d.id,true);explore.classList.add('mora-soon__explore');stage.append(explore);
       card.append(stage,details,views);return card;
     }
     render(){
@@ -98,10 +99,41 @@
       if(b.dataset.action==='view'){this.paused=true;this.showView(b.closest('article'),Number(b.dataset.view));this.clock();}
       if(b.dataset.action==='pause'){this.paused=!this.paused;b.textContent=this.paused?this.l.play:this.l.pause;this.clock();}
       if(b.dataset.action==='next'){this.advance();this.clock();}
+      if(b.dataset.action==='explore')this.explore(b.dataset.design,b);
       if(b.dataset.action==='refresh'){try{await this.refresh();this.render();}catch{this.status.textContent=this.l.unavailable;}}
       if(b.dataset.action==='vote'){const d=this.designs.find(x=>x.id===b.dataset.design);await this.write(d.id,'vote',{voted:!d.mine?.voted});}
     }
     async rate(e){if(e.target.matches('select[data-design]')&&e.target.value)await this.write(e.target.dataset.design,'rating',{rating:Number(e.target.value)});}
+    explore(id,trigger){
+      const d=this.designs.find(item=>item.id===id);if(!d)return;
+      this.dialog?.remove();
+      const dialog=this.el('dialog','mora-soon__viewer');this.dialog=dialog;
+      const heading=this.el('h2','',d.title);heading.id='MoraViewer-'+Math.random().toString(36).slice(2);
+      dialog.setAttribute('aria-labelledby',heading.id);
+      const close=this.button(this.l.close,'viewer-close',null,true);close.addEventListener('click',()=>dialog.close());
+      const canvas=this.el('div','mora-soon__viewer-canvas');canvas.tabIndex=0;canvas.setAttribute('aria-label',this.l.angles);
+      const image=this.el('img');image.width=2048;image.height=2048;canvas.append(image);
+      let angle=0,zoom=false,start=null;
+      const show=()=>{image.src=d.images[angle].src;image.alt=d.images[angle].alt;image.style.transform=zoom?'scale(1.7)':'none';};
+      const controls=this.el('div','mora-soon__controls');
+      d.images.forEach((im,i)=>{const button=this.button(im.alt,'viewer-angle',null,true);button.addEventListener('click',()=>{angle=i;zoom=false;show();});controls.append(button);});
+      const zoomButton=this.button(this.l.zoom,'viewer-zoom',null,true);zoomButton.addEventListener('click',()=>{zoom=!zoom;zoomButton.textContent=zoom?this.l.fit:this.l.zoom;show();});controls.append(zoomButton);
+      canvas.addEventListener('pointerdown',e=>{start={x:e.clientX,y:e.clientY};});
+      canvas.addEventListener('pointerup',e=>{if(start&&Math.abs(e.clientX-start.x)>65&&Math.abs(e.clientY-start.y)<55){angle=(angle^1)<d.images.length?(angle^1):0;zoom=false;show();}start=null;});
+      canvas.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();angle=(angle^1)<d.images.length?(angle^1):0;zoom=false;show();}});
+      const model=[...this.querySelectorAll('[data-soon-model]')].find(t=>t.dataset.design===id);
+      if(model){
+        const rotate=this.button(this.l.rotate,'viewer-model',null,true);
+        rotate.addEventListener('click',()=>{
+          canvas.replaceChildren(model.content.cloneNode(true));canvas.setAttribute('aria-label',this.l.rotate);
+          zoomButton.disabled=true;controls.querySelectorAll('[data-action=viewer-angle]').forEach(b=>b.disabled=true);
+          if(window.Shopify?.loadFeatures)Shopify.loadFeatures([{name:'model-viewer-ui',version:'1.0',onLoad:errors=>{if(!errors&&dialog.open&&Shopify.ModelViewerUI)new Shopify.ModelViewerUI(canvas.querySelector('model-viewer'));}}]);
+        });controls.append(rotate);
+      }
+      dialog.append(close,heading,canvas,controls);this.append(dialog);show();
+      dialog.addEventListener('close',()=>{trigger.focus();dialog.remove();this.clock();},{once:true});
+      dialog.showModal();this.clock();
+    }
     async submit(e){if(!e.target.matches('form[data-design]'))return;e.preventDefault();await this.write(e.target.dataset.design,'comment',{text:e.target.elements.comment.value});}
     async write(id,action,body){
       if(!this.ready||!this.member||this.busy)return;

@@ -6,6 +6,12 @@
     <p class="mora-soon__lead">{{ 'mora_soon.intro' | t }}</p>
     <p>{{ 'mora_soon.description' | t }}</p>
   </div>
+  {% assign preview_models = section.settings.model_product.media | where: 'media_type', 'model' %}
+  {% if preview_models.size > 0 %}
+    <template data-soon-model data-design="{{ section.settings.model_design | escape }}">
+      {{ preview_models.first | model_viewer_tag: interaction-policy: 'allow-when-focused' }}
+    </template>
+  {% endif %}
   <div data-soon-mount>
     <div class="mora-soon__fallback">
       <img src="https://cdn.shopify.com/s/files/1/0857/5018/6209/files/mora-first-set-jacket-front.png?v=1791760977" width="2048" height="2048" loading="lazy" alt="MORA First Set jacket front design">
@@ -49,9 +55,10 @@
 "preview":{{ 'mora_soon.preview' | t | json }},
 "ranking":{{ 'mora_soon.ranking' | t | json }},
 "stars":{{ 'mora_soon.stars' | t | json }},
+"explore":{{ 'mora_soon.explore' | t | json }},"close":{{ 'mora_soon.close' | t | json }},"zoom":{{ 'mora_soon.zoom' | t | json }},"fit":{{ 'mora_soon.fit' | t | json }},"rotate":{{ 'mora_soon.rotate' | t | json }},"angles":{{ 'mora_soon.angles' | t | json }},"rotate_hint":{{ 'mora_soon.rotate_hint' | t | json }},
 "refresh":{{ 'mora_soon.refresh' | t | json }}}</script>
 </mora-coming-soon>
 <script src="{{ 'mora-coming-soon.js' | asset_url }}" defer></script>
 {% schema %}
-{"name":"MORA Coming Soon","settings":[{"type":"select","id":"mode","label":"Display","options":[{"value":"gallery","label":"Coming Soon gallery"},{"value":"showcase","label":"Home boutique showcase"}],"default":"gallery"},{"type":"checkbox","id":"participation_enabled","label":"Enable connected family participation","default":false},{"type":"paragraph","content":"Enable participation only after the verified Shopify app proxy is installed and tested. Designs are previews and cannot be purchased here."}],"presets":[{"name":"MORA Coming Soon"}]}
+{"name":"MORA Coming Soon","settings":[{"type":"product","id":"model_product","label":"Optional product containing the real 3D model"},{"type":"text","id":"model_design","label":"Design ID for the 3D model","default":"mora-first-set"},{"type":"select","id":"mode","label":"Display","options":[{"value":"gallery","label":"Coming Soon gallery"},{"value":"showcase","label":"Home boutique showcase"}],"default":"gallery"},{"type":"checkbox","id":"participation_enabled","label":"Enable connected family participation","default":false},{"type":"paragraph","content":"Enable participation only after the verified Shopify app proxy is installed and tested. Designs are previews and cannot be purchased here."}],"presets":[{"name":"MORA Coming Soon"}]}
 {% endschema %}
