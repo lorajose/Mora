@@ -1,0 +1,57 @@
+{{ 'mora-coming-soon.css' | asset_url | stylesheet_tag }}
+<mora-coming-soon class="mora-soon" data-mode="{{ section.settings.mode }}" data-enabled="{{ section.settings.participation_enabled }}" data-catalog="{{ 'mora-coming-soon-catalog.json' | asset_url }}" data-proxy="/apps/mora-family" data-login="{{ routes.account_login_url }}" data-page="{{ pages['coming-soon'].url | default: '/pages/coming-soon' }}">
+  <div class="mora-soon__intro">
+    <p class="mora-soon__eyebrow">{{ 'mora_soon.eyebrow' | t }}</p>
+    {% if section.settings.mode == 'gallery' %}<h1>{{ 'mora_soon.title' | t }}</h1>{% else %}<h2>{{ 'mora_soon.title' | t }}</h2>{% endif %}
+    <p class="mora-soon__lead">{{ 'mora_soon.intro' | t }}</p>
+    <p>{{ 'mora_soon.description' | t }}</p>
+  </div>
+  <div data-soon-mount>
+    <div class="mora-soon__fallback">
+      <img src="https://cdn.shopify.com/s/files/1/0857/5018/6209/files/mora-first-set-jacket-front.png?v=1791760977" width="2048" height="2048" loading="lazy" alt="MORA First Set jacket front design">
+      <h3>MORA — First Set</h3>
+      <p>{{ 'mora_soon.provisional' | t }}</p>
+    </div>
+  </div>
+  <p class="mora-soon__notice" role="status" data-soon-status>{{ 'mora_soon.paused' | t }}</p>
+  <p class="mora-soon__fine">{{ 'mora_soon.ranking' | t }}</p>
+  <a class="mora-soon__family" href="{{ routes.account_login_url }}">{{ 'mora_soon.signin' | t }}</a>
+  <script type="application/json" data-soon-labels>{"eyebrow":{{ 'mora_soon.eyebrow' | t | json }},
+"title":{{ 'mora_soon.title' | t | json }},
+"intro":{{ 'mora_soon.intro' | t | json }},
+"description":{{ 'mora_soon.description' | t | json }},
+"provisional":{{ 'mora_soon.provisional' | t | json }},
+"browse":{{ 'mora_soon.browse' | t | json }},
+"signin":{{ 'mora_soon.signin' | t | json }},
+"family":{{ 'mora_soon.family' | t | json }},
+"paused":{{ 'mora_soon.paused' | t | json }},
+"live":{{ 'mora_soon.live' | t | json }},
+"votes":{{ 'mora_soon.votes' | t | json }},
+"rating":{{ 'mora_soon.rating' | t | json }},
+"norating":{{ 'mora_soon.norating' | t | json }},
+"vote":{{ 'mora_soon.vote' | t | json }},
+"voted":{{ 'mora_soon.voted' | t | json }},
+"remove":{{ 'mora_soon.remove' | t | json }},
+"rate":{{ 'mora_soon.rate' | t | json }},
+"comment":{{ 'mora_soon.comment' | t | json }},
+"comment_hint":{{ 'mora_soon.comment_hint' | t | json }},
+"submit":{{ 'mora_soon.submit' | t | json }},
+"pending":{{ 'mora_soon.pending' | t | json }},
+"comments":{{ 'mora_soon.comments' | t | json }},
+"empty":{{ 'mora_soon.empty' | t | json }},
+"unavailable":{{ 'mora_soon.unavailable' | t | json }},
+"saved":{{ 'mora_soon.saved' | t | json }},
+"pause":{{ 'mora_soon.pause' | t | json }},
+"play":{{ 'mora_soon.play' | t | json }},
+"next":{{ 'mora_soon.next' | t | json }},
+"view":{{ 'mora_soon.view' | t | json }},
+"top":{{ 'mora_soon.top' | t | json }},
+"preview":{{ 'mora_soon.preview' | t | json }},
+"ranking":{{ 'mora_soon.ranking' | t | json }},
+"stars":{{ 'mora_soon.stars' | t | json }},
+"refresh":{{ 'mora_soon.refresh' | t | json }}}</script>
+</mora-coming-soon>
+<script src="{{ 'mora-coming-soon.js' | asset_url }}" defer></script>
+{% schema %}
+{"name":"MORA Coming Soon","settings":[{"type":"select","id":"mode","label":"Display","options":[{"value":"gallery","label":"Coming Soon gallery"},{"value":"showcase","label":"Home boutique showcase"}],"default":"gallery"},{"type":"checkbox","id":"participation_enabled","label":"Enable connected family participation","default":false},{"type":"paragraph","content":"Enable participation only after the verified Shopify app proxy is installed and tested. Designs are previews and cannot be purchased here."}],"presets":[{"name":"MORA Coming Soon"}]}
+{% endschema %}

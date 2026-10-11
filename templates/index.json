@@ -40,10 +40,18 @@
         "email"
       ],
       "settings": {}
+    },
+    "mora_soon": {
+      "type": "mora-coming-soon",
+      "settings": {
+        "mode": "showcase",
+        "participation_enabled": false
+      }
     }
   },
   "order": [
     "mora",
+    "mora_soon",
     "products",
     "newsletter"
   ]

@@ -217,6 +217,10 @@
     }
   },
   "templates": {
+    "404": {
+      "title": "Page not found",
+      "subtext": "404"
+    },
     "search": {
       "no_results": "No results found for “{{ terms }}”. Check the spelling or use a different word or phrase.",
       "page": "Page",
@@ -260,10 +264,6 @@
         "post_success": "Thanks for contacting us. We'll get back to you as soon as possible.",
         "error_heading": "Please adjust the following:"
       }
-    },
-    "404": {
-      "title": "Page not found",
-      "subtext": "404"
     }
   },
   "sections": {
@@ -274,7 +274,6 @@
       "announcement": "Announcement",
       "announcement_bar": "Announcement bar"
     },
-
     "header": {
       "announcement": "Announcement",
       "menu": "Menu",
@@ -528,5 +527,41 @@
       "send_on": "YYYY-MM-DD",
       "send_on_label": "Send on (optional)"
     }
+  },
+  "mora_soon": {
+    "eyebrow": "THE MORA ATELIER",
+    "title": "Coming Soon",
+    "intro": "A first look. A shared vision.",
+    "description": "Discover the next chapter of MORA. Your family’s voice helps shape what comes next.",
+    "provisional": "Design preview · Price, sizes, materials and launch date to be announced.",
+    "browse": "Explore Coming Soon",
+    "signin": "Sign in to participate",
+    "family": "The MORA Family",
+    "paused": "Voting and feedback open soon. Explore the design and join the family.",
+    "live": "One vote per member, per design. Help choose our next launch.",
+    "votes": "votes",
+    "rating": "Design rating",
+    "norating": "Not rated yet",
+    "vote": "Vote for this design",
+    "voted": "Your vote is counted",
+    "remove": "Withdraw vote",
+    "rate": "Rate this design",
+    "comment": "Share your thoughts",
+    "comment_hint": "What do you love? What would you change? Please avoid personal information.",
+    "submit": "Submit for review",
+    "pending": "Thank you. Your comment will appear after review.",
+    "comments": "The family’s perspective",
+    "empty": "Be the first to share your perspective.",
+    "unavailable": "Participation is temporarily unavailable. Please try again later.",
+    "saved": "Saved. Thank you for shaping MORA.",
+    "pause": "Pause display",
+    "play": "Play display",
+    "next": "Next view",
+    "view": "View",
+    "top": "FAMILY FAVOURITES",
+    "preview": "FIRST LOOK",
+    "ranking": "Most voted designs receive launch priority. Final release timing depends on production readiness.",
+    "stars": "stars",
+    "refresh": "Refresh family results"
   }
 }

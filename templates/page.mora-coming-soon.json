@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "coming_soon": {
+      "type": "mora-coming-soon",
+      "settings": {
+        "mode": "gallery",
+        "participation_enabled": false
+      }
+    }
+  },
+  "order": [
+    "coming_soon"
+  ]
+}

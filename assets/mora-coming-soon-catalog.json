@@ -1,0 +1,27 @@
+{
+  "designs": [
+    {
+      "id": "mora-first-set",
+      "title": "MORA — First Set",
+      "status": "coming-soon",
+      "images": [
+        {
+          "src": "https://cdn.shopify.com/s/files/1/0857/5018/6209/files/mora-first-set-jacket-front.png?v=1791760977",
+          "alt": "Jacket — front"
+        },
+        {
+          "src": "https://cdn.shopify.com/s/files/1/0857/5018/6209/files/mora-first-set-jacket-back.png?v=1791760988",
+          "alt": "Jacket — back"
+        },
+        {
+          "src": "https://cdn.shopify.com/s/files/1/0857/5018/6209/files/mora-first-set-pants-front.png?v=1791760996",
+          "alt": "Pants — front"
+        },
+        {
+          "src": "https://cdn.shopify.com/s/files/1/0857/5018/6209/files/mora-first-set-pants-back.png?v=1791761009",
+          "alt": "Pants — back"
+        }
+      ]
+    }
+  ]
+}
