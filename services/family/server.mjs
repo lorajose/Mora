@@ -17,8 +17,8 @@ export function createFamilyServer({secret,shop,catalog,store}){
       if(!customer)return send(401,{error:'Sign in required'});
       if(!req.headers['content-type']?.startsWith('application/json'))return send(415,{error:'JSON required'});
       if(!catalog.designs.some(d=>d.id===match[1]&&d.status==='coming-soon'))return send(404,{error:'Design is not open for feedback'});
-      let text='',size=0;for await(const chunk of req){size+=chunk.length;if(size>8192)return send(413,{error:'Request too large'});text+=chunk;}
-      let body;try{body=JSON.parse(text);}catch{return send(400,{error:'Invalid JSON'});}
+      const chunks=[];let size=0;for await(const chunk of req){size+=chunk.length;if(size>8192)return send(413,{error:'Request too large'});chunks.push(chunk);}
+      let body;try{body=JSON.parse(Buffer.concat(chunks).toString('utf8'));}catch{return send(400,{error:'Invalid JSON'});}
       if(!body||typeof body!=='object'||Array.isArray(body))return send(400,{error:'Invalid JSON'});
       if(!verifyCsrf(body.csrf,customer,secret))return send(403,{error:'Refresh your session'});
       store.limit(customer);store.write(match[1],customer,match[2],body);
