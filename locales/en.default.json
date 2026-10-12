@@ -570,6 +570,8 @@
     "rotate": "View in 360°",
     "angles": "Front and back views",
     "rotate_hint": "Drag to rotate. Pinch or scroll to zoom.",
-    "model_notice": "Approximate 3D concept. Shape and side details may differ from the final garment."
+    "model_notice": "Approximate 3D concept. Shape and side details may differ from the final garment.",
+    "published": "Published MORA Family results. New responses appear after the next publication.",
+    "participate": "Vote, rate & comment in MORA Family"
   }
 }
