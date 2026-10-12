@@ -37,18 +37,17 @@
       try{
         const seed=await this.json(this.dataset.catalog);
         this.designs=seed.designs;
-        if(this.dataset.enabled==='true'){
-          try{await this.refresh();}catch{this.status.textContent=this.l.unavailable;}
-        }
+        const published=JSON.parse(this.querySelector('[data-family-published]')?.textContent || 'null');
+        if(published?.version===1 && Array.isArray(published.designs) && published.designs.length){
+          this.designs=published.designs.map((d,i)=>({...d,rank:i+1}));
+          this.ready=true;
+          this.status.textContent=this.l.published;
+        } else this.status.textContent=this.l.preview;
+        this.member=false;
         this.render();this.clock();
       }catch{this.status.textContent=this.l.unavailable;}
     }
-    async refresh(){
-      const data=await this.json(this.dataset.proxy+'/catalog');
-      if(!Array.isArray(data.designs)||!data.designs.length)throw new Error('catalog');
-      this.designs=data.designs;this.member=data.member;this.csrf=data.csrf;this.ready=true;
-      this.status.textContent=this.member?this.l.live:this.l.signin;
-    }
+    async refresh(){ window.location.reload(); }
     card(d,showcase){
       const card=this.el('article','mora-soon__card');card.dataset.id=d.id;
       const stage=this.el('div','mora-soon__stage');
@@ -60,14 +59,12 @@
       d.images.forEach((im,i)=>{const b=this.button(this.l.view+' '+(i+1),'view',d.id,true);b.className='';b.dataset.view=i;b.setAttribute('aria-label',im.alt);b.setAttribute('aria-pressed',String(i===this.view%d.images.length));b.textContent='';const thumb=this.el('img');thumb.src=im.src;thumb.alt='';thumb.loading='lazy';thumb.width=52;thumb.height=52;b.append(thumb);views.append(b);});
       if(showcase){const a=this.el('a','mora-soon__button',this.l.browse);a.href=this.dataset.page;details.append(a);}
       else{
-        const actions=this.el('div','mora-soon__actions');const vote=this.button(d.mine?.voted?this.l.remove:this.l.vote,'vote',d.id);vote.disabled=!this.ready||!this.member||this.busy;vote.setAttribute('aria-pressed',String(!!d.mine?.voted));actions.append(vote);
-        if(this.ready&&!this.member){const login=this.el('a','mora-soon__button mora-soon__button--quiet',this.l.signin);login.href=this.dataset.login;actions.append(login);}
-        const refresh=this.button(this.l.refresh,'refresh',null,true);refresh.disabled=!this.ready||this.busy;actions.append(refresh);details.append(actions);
-        const rating=this.el('label','mora-soon__rating',this.l.rate);const select=this.el('select');select.dataset.design=d.id;select.setAttribute('aria-label',this.l.rate);select.disabled=!this.ready||!this.member||this.busy;select.append(new Option('—',''));for(let i=1;i<=5;i++)select.append(new Option(i+' '+this.l.stars,String(i)));select.value=d.mine?.rating?String(d.mine.rating):'';rating.append(select);details.append(rating);
+        const actions=this.el('div','mora-soon__actions');
+        const participate=this.el('a','mora-soon__button',this.l.participate);participate.href=this.dataset.participation;actions.append(participate);details.append(actions);
         const discussion=this.el('details','mora-soon__discussion');discussion.append(this.el('summary','',this.l.comments));
         if(!d.comments?.length)discussion.append(this.el('p','mora-soon__provisional',this.ready?this.l.empty:this.l.paused));
         for(const c of d.comments||[]){const quote=this.el('blockquote','mora-soon__comment',c.text);quote.append(this.el('cite','',this.l.family));discussion.append(quote);}
-        const form=this.el('form');form.dataset.design=d.id;const field=this.el('textarea');field.name='comment';field.maxLength=1000;field.minLength=3;field.required=true;field.disabled=!this.ready||!this.member||this.busy;field.setAttribute('aria-label',this.l.comment);field.placeholder=this.l.comment_hint;form.append(field);const submit=this.button(this.l.submit,'submit',d.id);submit.type='submit';submit.disabled=field.disabled;form.append(submit);discussion.append(form);details.append(discussion);
+        details.append(discussion);
       }
       const explore=this.button(this.l.explore,'explore',d.id,true);explore.classList.add('mora-soon__explore');stage.append(explore);
       card.append(stage,details,views);return card;
