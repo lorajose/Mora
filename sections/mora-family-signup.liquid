@@ -5,10 +5,13 @@
     <button type="button" class="mora-family__close" data-family-close aria-label="Close invitation">×</button>
     <div class="mora-family__grid">
       <div class="mora-family__art">
+        <div class="mora-family__brand">
+          <img class="mora-family__symbol" src="{{ 'mora-symbol.png' | asset_url }}" width="2048" height="2048" alt="" loading="lazy">
+          <img class="mora-family__wordmark" src="{{ 'mora-wordmark.png' | asset_url }}" width="2048" height="192" alt="MORA" loading="lazy">
+          <p>COLLECTIVE BY MORA</p>
+        </div>
         {% if section.settings.image != blank %}
-          {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400, 800, 1200', sizes: '(min-width: 750px) 400px, 100vw' }}
-        {% else %}
-          <span>MORA</span><p>COLLECTIVE BY MORA</p>
+          {{ section.settings.image | image_url: width: 1200 | image_tag: class: 'mora-family__photo', loading: 'lazy', widths: '400, 800, 1200', sizes: '(min-width: 750px) 400px, 100vw' }}
         {% endif %}
       </div>
       <div class="mora-family__body">
@@ -52,7 +55,13 @@
 .mora-family__art{background:#252720;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:460px}
 .mora-family__art span{font-family:var(--font-heading-family);font-size:70px;font-weight:bold}
 .mora-family__art p{font-size:11px;letter-spacing:.15em}
-.mora-family__art img{width:100%;height:100%;object-fit:cover}
+.mora-family__art{position:relative;overflow:hidden}
+.mora-family__brand{position:relative;z-index:1;width:80%;text-align:center;padding:24px 0}
+.mora-family__brand .mora-family__symbol{display:block;width:70%;max-width:220px;height:auto;margin:0 auto;filter:brightness(0) invert(1)}
+.mora-family__brand .mora-family__wordmark{display:block;width:100%;height:auto;margin:18px auto;filter:brightness(0) invert(1)}
+.mora-family__photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mora-family__art:has(.mora-family__photo)::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.45)}
+@media(max-width:749px){.mora-family__brand{padding:16px 0}.mora-family__brand .mora-family__symbol{width:80px}.mora-family__brand .mora-family__wordmark{width:170px;margin:8px auto}.mora-family__brand p{margin:4px 0}}
 .mora-family__body{padding:52px 32px 28px}
 .mora-family__body h2{color:inherit;font-size:32px;line-height:1.15}
 .mora-family__eyebrow{font-size:11px;letter-spacing:.2em}
