@@ -113,29 +113,34 @@
       const close=this.button(this.l.close,'viewer-close',null,true);close.addEventListener('click',()=>dialog.close());
       const canvas=this.el('div','mora-soon__viewer-canvas');canvas.tabIndex=0;canvas.setAttribute('aria-label',this.l.angles);
       const image=this.el('img');image.width=2048;image.height=2048;canvas.append(image);
-      let angle=0,zoom=false,start=null;
+      let angle=0,zoom=false,start=null,usingModel=false;
       const show=()=>{image.src=d.images[angle].src;image.alt=d.images[angle].alt;image.style.transform=zoom?'scale(1.7)':'none';};
       const controls=this.el('div','mora-soon__controls');
-      d.images.forEach((im,i)=>{const button=this.button(im.alt,'viewer-angle',null,true);button.addEventListener('click',()=>{angle=i;zoom=false;show();});controls.append(button);});
+      d.images.forEach((im,i)=>{const button=this.button(im.alt,'viewer-angle',null,true);button.addEventListener('click',()=>{usingModel=false;canvas.replaceChildren(image);angle=i;zoom=false;zoomButton.disabled=false;show();});controls.append(button);});
       const zoomButton=this.button(this.l.zoom,'viewer-zoom',null,true);zoomButton.addEventListener('click',()=>{zoom=!zoom;zoomButton.textContent=zoom?this.l.fit:this.l.zoom;show();});controls.append(zoomButton);
       canvas.addEventListener('pointerdown',e=>{start={x:e.clientX,y:e.clientY};});
-      canvas.addEventListener('pointerup',e=>{if(start&&Math.abs(e.clientX-start.x)>65&&Math.abs(e.clientY-start.y)<55){angle=(angle^1)<d.images.length?(angle^1):0;zoom=false;show();}start=null;});
-      canvas.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();angle=(angle^1)<d.images.length?(angle^1):0;zoom=false;show();}});
+      canvas.addEventListener('pointerup',e=>{if(!usingModel&&start&&Math.abs(e.clientX-start.x)>65&&Math.abs(e.clientY-start.y)<55){angle=(angle^1)<d.images.length?(angle^1):0;zoom=false;show();}start=null;});
+      canvas.addEventListener('keydown',e=>{if(!usingModel&&['ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();angle=(angle^1)<d.images.length?(angle^1):0;zoom=false;show();}});
+      let openModel;
       const model=[...this.querySelectorAll('[data-soon-model]')].find(t=>t.dataset.design===id);
       if(model){
         const rotate=this.button(this.l.rotate,'viewer-model',null,true);
         const note=this.el('p','mora-soon__fine');
-        rotate.addEventListener('click',()=>{
+        openModel=()=>{
+          usingModel=true;
           canvas.replaceChildren(model.content.cloneNode(true));canvas.setAttribute('aria-label',this.l.rotate);
+          const viewer=canvas.querySelector('model-viewer');
+          viewer.setAttribute('reveal','auto');viewer.setAttribute('loading','eager');viewer.setAttribute('camera-controls','');viewer.setAttribute('interaction-policy','always-allow');viewer.setAttribute('camera-orbit','0deg 75deg auto');viewer.setAttribute('camera-target','auto auto auto');viewer.style.touchAction='none';
+          canvas.classList.add('is-model');
           note.textContent=model.dataset.approximate==='true'?this.l.model_notice:this.l.rotate_hint;
           note.hidden=false;
-          zoomButton.disabled=true;controls.querySelectorAll('[data-action=viewer-angle]').forEach(b=>b.disabled=true);
-          if(window.Shopify?.loadFeatures)Shopify.loadFeatures([{name:'model-viewer-ui',version:'1.0',onLoad:errors=>{if(!errors&&dialog.open&&Shopify.ModelViewerUI)new Shopify.ModelViewerUI(canvas.querySelector('model-viewer'));}}]);
-        });controls.append(rotate);note.hidden=true;controls.append(note);
+          zoomButton.disabled=true;
+          if(window.Shopify?.loadFeatures)Shopify.loadFeatures([{name:'model-viewer-ui',version:'1.0',onLoad:errors=>{if(!errors&&dialog.open&&Shopify.ModelViewerUI){const ui=new Shopify.ModelViewerUI(viewer);ui.play?.();viewer.dismissPoster?.();}}}]);
+        };rotate.addEventListener('click',openModel);controls.append(rotate);note.hidden=true;controls.append(note);
       }
       dialog.append(close,heading,canvas,controls);this.append(dialog);show();
       dialog.addEventListener('close',()=>{trigger.focus();dialog.remove();this.clock();},{once:true});
-      dialog.showModal();this.clock();
+      dialog.showModal();if(openModel)openModel();this.clock();
     }
     async submit(e){if(!e.target.matches('form[data-design]'))return;e.preventDefault();await this.write(e.target.dataset.design,'comment',{text:e.target.elements.comment.value});}
     async write(id,action,body){

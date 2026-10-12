@@ -1,3 +1,4 @@
+{{ 'https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.css' | stylesheet_tag }}
 {{ 'mora-coming-soon.css' | asset_url | stylesheet_tag }}
 <mora-coming-soon class="mora-soon" data-mode="{{ section.settings.mode }}" data-enabled="{{ section.settings.participation_enabled }}" data-catalog="{{ 'mora-coming-soon-catalog.json' | asset_url }}" data-proxy="/apps/mora-family" data-login="{{ routes.account_login_url }}" data-page="{{ pages['coming-soon'].url | default: '/pages/coming-soon' }}">
   <div class="mora-soon__intro">
