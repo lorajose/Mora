@@ -569,6 +569,7 @@
     "fit": "Fit image",
     "rotate": "View in 360°",
     "angles": "Front and back views",
-    "rotate_hint": "Drag to rotate. Pinch or scroll to zoom."
+    "rotate_hint": "Drag to rotate. Pinch or scroll to zoom.",
+    "model_notice": "Approximate 3D concept. Shape and side details may differ from the final garment."
   }
 }

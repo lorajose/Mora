@@ -124,11 +124,14 @@
       const model=[...this.querySelectorAll('[data-soon-model]')].find(t=>t.dataset.design===id);
       if(model){
         const rotate=this.button(this.l.rotate,'viewer-model',null,true);
+        const note=this.el('p','mora-soon__fine');
         rotate.addEventListener('click',()=>{
           canvas.replaceChildren(model.content.cloneNode(true));canvas.setAttribute('aria-label',this.l.rotate);
+          note.textContent=model.dataset.approximate==='true'?this.l.model_notice:this.l.rotate_hint;
+          note.hidden=false;
           zoomButton.disabled=true;controls.querySelectorAll('[data-action=viewer-angle]').forEach(b=>b.disabled=true);
           if(window.Shopify?.loadFeatures)Shopify.loadFeatures([{name:'model-viewer-ui',version:'1.0',onLoad:errors=>{if(!errors&&dialog.open&&Shopify.ModelViewerUI)new Shopify.ModelViewerUI(canvas.querySelector('model-viewer'));}}]);
-        });controls.append(rotate);
+        });controls.append(rotate);note.hidden=true;controls.append(note);
       }
       dialog.append(close,heading,canvas,controls);this.append(dialog);show();
       dialog.addEventListener('close',()=>{trigger.focus();dialog.remove();this.clock();},{once:true});

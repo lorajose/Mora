@@ -11,6 +11,10 @@
     <template data-soon-model data-design="{{ section.settings.model_design | escape }}">
       {{ preview_models.first | model_viewer_tag: interaction-policy: 'allow-when-focused' }}
     </template>
+  {% else %}
+    <template data-soon-model data-design="mora-first-set" data-approximate="true">
+      <model-viewer src="https://cdn.shopify.com/3d/models/o/95313067dd290d58/mora-first-set-concept-3d.glb" camera-controls interaction-policy="allow-when-focused" data-shopify-feature="1.12" alt="{{ 'mora_soon.model_notice' | t | escape }}" poster="https://cdn.shopify.com/s/files/1/0857/5018/6209/files/mora-first-set-jacket-front.png?v=1791760977"></model-viewer>
+    </template>
   {% endif %}
   <div data-soon-mount>
     <div class="mora-soon__fallback">
@@ -55,7 +59,8 @@
 "preview":{{ 'mora_soon.preview' | t | json }},
 "ranking":{{ 'mora_soon.ranking' | t | json }},
 "stars":{{ 'mora_soon.stars' | t | json }},
-"explore":{{ 'mora_soon.explore' | t | json }},"close":{{ 'mora_soon.close' | t | json }},"zoom":{{ 'mora_soon.zoom' | t | json }},"fit":{{ 'mora_soon.fit' | t | json }},"rotate":{{ 'mora_soon.rotate' | t | json }},"angles":{{ 'mora_soon.angles' | t | json }},"rotate_hint":{{ 'mora_soon.rotate_hint' | t | json }},
+"explore":{{ 'mora_soon.explore' | t | json }},"close":{{ 'mora_soon.close' | t | json }},"zoom":{{ 'mora_soon.zoom' | t | json }},"fit":{{ 'mora_soon.fit' | t | json }},"rotate":{{ 'mora_soon.rotate' | t | json }},"angles":{{ 'mora_soon.angles' | t | json }},"model_notice":{{ 'mora_soon.model_notice' | t | json }},
+"rotate_hint":{{ 'mora_soon.rotate_hint' | t | json }},
 "refresh":{{ 'mora_soon.refresh' | t | json }}}</script>
 </mora-coming-soon>
 <script src="{{ 'mora-coming-soon.js' | asset_url }}" defer></script>
