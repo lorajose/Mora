@@ -575,7 +575,9 @@
     "participate": "Vote, rate & comment in MORA Family"
   },
   "mora_catalog": {
-    "title": "Catalog"
+    "title": "Catalog",
+    "pause": "Pause automatic slideshow",
+    "slideshow": "MORA collection slideshow"
   },
   "mora_about": {
     "title": "ABOUT",
