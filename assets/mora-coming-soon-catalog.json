@@ -22,6 +22,66 @@
           "alt": "Pants — back"
         }
       ]
+    },
+    {
+      "id": "mora-black-pants",
+      "title": "MORA — Black Pants",
+      "images": [
+        {
+          "src": "https://cdn.shopify.com/s/files/1/0857/5018/6209/files/mora-black-pants-preview.jpg?v=1793237683",
+          "alt": "MORA black pants — front"
+        }
+      ],
+      "status": "coming-soon",
+      "photosOnly": true
+    },
+    {
+      "id": "mora-black-hoodie",
+      "title": "MORA — Black Hoodie",
+      "images": [
+        {
+          "src": "https://cdn.shopify.com/s/files/1/0857/5018/6209/files/mora-black-hoodie-front.jpg?v=1793237710",
+          "alt": "MORA black hoodie — front"
+        },
+        {
+          "src": "https://cdn.shopify.com/s/files/1/0857/5018/6209/files/mora-black-hoodie-back.jpg?v=1793237702",
+          "alt": "MORA black hoodie — back"
+        }
+      ],
+      "status": "coming-soon",
+      "photosOnly": true
+    },
+    {
+      "id": "mora-white-shirt",
+      "title": "MORA — White T-Shirt",
+      "images": [
+        {
+          "src": "https://cdn.shopify.com/s/files/1/0857/5018/6209/files/mora-white-shirt-front.jpg?v=1793237725",
+          "alt": "MORA white T-shirt — front"
+        },
+        {
+          "src": "https://cdn.shopify.com/s/files/1/0857/5018/6209/files/mora-white-shirt-back.jpg?v=1793237717",
+          "alt": "MORA white T-shirt — back"
+        }
+      ],
+      "status": "coming-soon",
+      "photosOnly": true
+    },
+    {
+      "id": "mora-black-long-sleeve",
+      "title": "MORA — Black Long Sleeve",
+      "images": [
+        {
+          "src": "https://cdn.shopify.com/s/files/1/0857/5018/6209/files/mora-black-long-sleeve-front.jpg?v=1793237741",
+          "alt": "MORA black long-sleeve top — front"
+        },
+        {
+          "src": "https://cdn.shopify.com/s/files/1/0857/5018/6209/files/mora-black-long-sleeve-back.jpg?v=1793237733",
+          "alt": "MORA black long-sleeve top — back"
+        }
+      ],
+      "status": "coming-soon",
+      "photosOnly": true
     }
   ]
 }
