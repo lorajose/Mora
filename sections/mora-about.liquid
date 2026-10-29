@@ -1,0 +1,16 @@
+<section class="mora-about page-width">
+<p class="mora-about__eyebrow">COLLECTIVE BY MORA</p>
+<img class="mora-about__symbol" src="{{ 'mora-symbol.png' | asset_url }}" width="2048" height="2048" alt="" loading="eager">
+<h1>{{ 'mora_about.title' | t }}</h1>
+<img class="mora-about__wordmark" src="{{ 'mora-wordmark.png' | asset_url }}" width="2048" height="192" alt="MORA" loading="eager">
+<p class="mora-about__intro">{{ 'mora_about.intro' | t }}</p>
+<p>{{ 'mora_about.description' | t }}</p>
+<a class="button" href="{{ routes.all_products_collection_url }}">{{ 'mora_about.catalog' | t }}</a>
+<a class="mora-about__instagram link" href="https://www.instagram.com/bymora.ny/" target="_blank" rel="noopener noreferrer"><span class="svg-wrapper">{{ 'icon-instagram.svg' | inline_asset_content }}</span> @bymora.ny</a>
+</section>
+{% stylesheet %}
+.mora-about{max-width:780px;text-align:center;padding-top:72px;padding-bottom:96px}.mora-about__eyebrow{font-size:11px;letter-spacing:.2em}.mora-about__symbol{display:block;width:150px;height:auto;margin:32px auto 0;filter:brightness(0)}.mora-about h1{font-size:18px;letter-spacing:.15em;margin:28px 0}.mora-about__wordmark{display:block;width:min(80%,360px);height:auto;margin:0 auto 36px;filter:brightness(0)}.mora-about p{line-height:1.8}.mora-about__intro{font-size:22px}.mora-about .button{margin-top:24px}.mora-about__instagram{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:28px;color:inherit}.mora-about__instagram .svg-wrapper{width:22px;height:22px}
+{% endstylesheet %}
+{% schema %}
+{"name":"MORA About","settings":[],"presets":[{"name":"MORA About"}]}
+{% endschema %}

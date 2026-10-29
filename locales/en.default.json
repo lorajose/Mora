@@ -573,5 +573,14 @@
     "model_notice": "Approximate 3D concept. Shape and side details may differ from the final garment.",
     "published": "Published MORA Family results. New responses appear after the next publication.",
     "participate": "Vote, rate & comment in MORA Family"
+  },
+  "mora_catalog": {
+    "title": "Catalog"
+  },
+  "mora_about": {
+    "title": "ABOUT",
+    "intro": "A first chapter. A shared vision.",
+    "description": "Collective by MORA brings our designs and our community together. Explore the collection and be part of the MORA family from the beginning.",
+    "catalog": "EXPLORE THE CATALOG"
   }
 }
