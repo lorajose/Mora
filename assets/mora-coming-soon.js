@@ -39,7 +39,9 @@
         this.designs=seed.designs;
         const published=JSON.parse(this.querySelector('[data-family-published]')?.textContent || 'null');
         if(published?.version===1 && Array.isArray(published.designs) && published.designs.length){
-          this.designs=published.designs.map((d,i)=>({...d,rank:i+1}));
+          const results=new Map(published.designs.map((d,i)=>[d.id,{...d,rank:i+1}]));
+          this.designs=seed.designs.map(d=>({...results.get(d.id),...d}));
+          this.designs.sort((a,b)=>(a.rank||Infinity)-(b.rank||Infinity));
           this.ready=true;
           this.status.textContent=this.l.published;
         } else this.status.textContent=this.l.preview;
@@ -54,17 +56,19 @@
       const badge=this.el('span','mora-soon__badge',this.ready&&d.rank?this.l.top+' / '+String(d.rank).padStart(2,'0'):this.l.preview);
       const img=this.el('img');const im=d.images[this.view%d.images.length];img.src=im.src;img.alt=im.alt;img.width=2048;img.height=2048;img.loading='lazy';stage.append(badge,img);
       const details=this.el('div','mora-soon__details');details.append(this.el('p','mora-soon__eyebrow',this.l.title),this.el('h3','',d.title),this.el('p','mora-soon__provisional',this.l.provisional));
-      if(this.ready){const stats=this.el('div','mora-soon__stats');stats.append(this.el('span','',d.votes+' '+this.l.votes),this.el('span','',d.ratingCount?Number(d.rating).toFixed(1)+' / 5 · '+d.ratingCount+' '+this.l.rating:this.l.norating));details.append(stats);}
+      if(this.ready&&!d.photosOnly&&Number.isFinite(d.votes)){const stats=this.el('div','mora-soon__stats');stats.append(this.el('span','',d.votes+' '+this.l.votes),this.el('span','',d.ratingCount?Number(d.rating).toFixed(1)+' / 5 · '+d.ratingCount+' '+this.l.rating:this.l.norating));details.append(stats);}
       const views=this.el('div','mora-soon__views');
       d.images.forEach((im,i)=>{const b=this.button(this.l.view+' '+(i+1),'view',d.id,true);b.className='';b.dataset.view=i;b.setAttribute('aria-label',im.alt);b.setAttribute('aria-pressed',String(i===this.view%d.images.length));b.textContent='';const thumb=this.el('img');thumb.src=im.src;thumb.alt='';thumb.loading='lazy';thumb.width=52;thumb.height=52;b.append(thumb);views.append(b);});
       if(showcase){const a=this.el('a','mora-soon__button',this.l.browse);a.href=this.dataset.page;details.append(a);}
       else{
+        if(!d.photosOnly){
         const actions=this.el('div','mora-soon__actions');
         const participate=this.el('a','mora-soon__button',this.l.participate);participate.href=this.dataset.participation;actions.append(participate);details.append(actions);
         const discussion=this.el('details','mora-soon__discussion');discussion.append(this.el('summary','',this.l.comments));
         if(!d.comments?.length)discussion.append(this.el('p','mora-soon__provisional',this.ready?this.l.empty:this.l.paused));
         for(const c of d.comments||[]){const quote=this.el('blockquote','mora-soon__comment',c.text);quote.append(this.el('cite','',this.l.family));discussion.append(quote);}
         details.append(discussion);
+        }
       }
       const explore=this.button(this.l.explore,'explore',d.id,true);explore.classList.add('mora-soon__explore');stage.append(explore);
       card.append(stage,details,views);return card;
