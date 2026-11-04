@@ -34,6 +34,28 @@
 @media(max-width:749px){.mora-rack__rail:before{top:20px;width:1150px}.mora-rack__pieces{min-height:365px;width:1150px;padding-left:16px;padding-right:16px;gap:0}.mora-rack__piece{width:175px;flex:1}.mora-rack__piece img{height:280px}.mora-rack__hanger{height:70px;margin-bottom:-29px}.mora-rack__piece.is-selected{flex:1.7}.mora-rack__garment{transform:rotateY(64deg) rotateZ(-2deg)}}
 
 .mora-rack__garment{filter:drop-shadow(5px 12px 6px #0002)}.mora-rack__piece img{filter:drop-shadow(1px 4px 2px #0002)}.mora-rack__image img{filter:drop-shadow(0 14px 12px #0002)}
+
+.mora-rack__pieces{align-items:flex-start;gap:0;min-height:440px}
+.mora-rack__piece{flex:1 1 100px;max-width:none;min-width:0;z-index:1}
+.mora-rack__garment{width:clamp(210px,23vw,340px);margin-left:50%;left:0;translate:-50% 0;transform:rotateY(76deg) rotateZ(-1deg);transform-origin:50% 12px;padding-top:10px}
+.mora-rack__piece:nth-child(even) .mora-rack__garment{transform:rotateY(76deg) rotateZ(1deg)}
+.mora-rack__hanger{position:absolute;top:0;left:18%;width:64%;height:auto;margin:0;z-index:0}
+.mora-rack__piece img{position:relative;z-index:1;width:100%;height:auto;object-fit:contain;margin:0;display:block}
+.mora-rack__piece[data-piece="1"] img,.mora-rack__piece[data-piece="2"] img{margin-top:38px}
+.mora-rack__piece span{position:relative;margin-top:24px;z-index:2}
+.mora-rack__piece.is-selected,.mora-rack__piece:focus-visible{flex:2.4 1 180px;z-index:5}
+.mora-rack__piece.is-selected .mora-rack__garment,.mora-rack__piece:focus-visible .mora-rack__garment{transform:rotateY(0) rotateZ(0)}
+@media(hover:hover){.mora-rack__piece:hover{flex:2.4 1 180px;z-index:5}.mora-rack__piece:hover .mora-rack__garment{transform:rotateY(0) rotateZ(0)}}
+.mora-rack__dialog{background:transparent!important;box-shadow:none;color:#fff;overflow-x:hidden}
+.mora-rack__dialog::backdrop{background:rgba(12,17,13,.83);backdrop-filter:blur(12px)}
+.mora-rack__dialog h3,.mora-rack__dialog a,.mora-rack__close,.mora-rack__navigation button{color:#fff}
+.mora-rack__info{text-shadow:0 2px 12px #0006}
+.mora-rack__angles button{color:#fff;border-color:#ffffff80;background:#ffffff0a}
+.mora-rack__angles button[aria-pressed=true]{background:#fff;color:#172016}
+.mora-rack__navigation button{border-color:#ffffff80;background:#ffffff0a}
+.mora-rack__image{background:transparent}.mora-rack__image img{background:transparent;mix-blend-mode:normal}
+@media(max-width:749px){.mora-rack__pieces{width:1000px;min-height:350px;padding-left:25px;padding-right:25px}.mora-rack__rail:before{width:1000px}.mora-rack__garment{width:240px;transform:rotateY(76deg) rotateZ(-1deg)}.mora-rack__piece:nth-child(even) .mora-rack__garment{transform:rotateY(76deg) rotateZ(1deg)}.mora-rack__piece.is-selected .mora-rack__garment,.mora-rack__piece:focus-visible .mora-rack__garment{transform:rotateY(0) rotateZ(0)}.mora-rack__dialog{padding-top:50px}}
+
 {% endstylesheet %}
 {% javascript %}
 if(!customElements.get('mora-interactive-rack')){
