@@ -40,10 +40,15 @@
         "email"
       ],
       "settings": {}
+    },
+    "mora_wardrobe": {
+      "type": "mora-interactive-rack",
+      "settings": {}
     }
   },
   "order": [
     "mora",
+    "mora_wardrobe",
     "products",
     "newsletter"
   ]
