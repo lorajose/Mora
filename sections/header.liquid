@@ -316,7 +316,7 @@
       </a>
     </div>
   </header>
-  {% if request.page_type == 'index' or collection.handle == 'all' %}
+  {% if request.page_type == 'index' or collection.handle == 'all' or page.handle == 'contact' or page.handle == 'about' %}
     <div class="mora-header-divider" aria-hidden="true"></div>
   {% endif %}
 </{{ header_tag }}>
