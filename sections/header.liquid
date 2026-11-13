@@ -155,7 +155,7 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
-  {% if request.page_type == 'index' or collection.handle == 'all' %}
+  {% if collection.handle == 'all' %}
     #shopify-section-{{ section.id }} .header-wrapper {
       border-bottom: 2px solid #660033;
     }
