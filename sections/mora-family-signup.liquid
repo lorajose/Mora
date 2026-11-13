@@ -47,6 +47,9 @@
   </dialog>
 </div>
 {% style %}
+{% if request.page_type == 'index' %}
+#MoraFamily-{{ section.id }} > .mora-family__reopen{display:none}
+{% endif %}
 .mora-family__reopen{display:block;margin:24px auto;padding:14px 24px;background:#191919;color:#fff;border:1px solid #191919;cursor:pointer}
 .mora-family__dialog{padding:0;border:0;background:#f4f1ea;color:#191919;width:min(860px,calc(100% - 32px));max-height:90dvh;overflow:auto}
 .mora-family__dialog::backdrop{background:rgba(0,0,0,.6)}
