@@ -26,7 +26,7 @@
   </div>
 </section>
 {% style %}
-.mora-launch{background:#eeece4;color:#24261f}
+.mora-launch{background:#192131;color:#d6d8dc}
 .mora-launch__visual{min-height:calc(100svh - 100px);position:relative;display:grid;place-items:center;text-align:center;overflow:hidden;padding:60px 24px}
 .mora-launch__image,.mora-launch__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .mora-launch__video video{width:100%;height:100%;object-fit:cover}
@@ -38,9 +38,9 @@
 .mora-launch__eyebrow,.mora-launch__chapter,.mora-launch__status{font-family:var(--font-body-family);font-size:11px;letter-spacing:.2em}
 .mora-launch__brand{perspective:1000px;margin:20px auto 32px}
 .mora-launch__symbol{width:clamp(180px,27vw,300px);margin:0 auto;transform-style:preserve-3d}
-.mora-launch__symbol img{display:block;width:100%;height:auto;filter:brightness(0)}
+.mora-launch__symbol img{display:block;width:100%;height:auto;filter:brightness(0) invert(.78)}
 .mora-launch__wordmark{margin:10px auto 0;line-height:1;width:min(90%,520px)}
-.mora-launch__wordmark img{display:block;width:100%;height:auto;filter:brightness(0)}
+.mora-launch__wordmark img{display:block;width:100%;height:auto;filter:brightness(0) invert(.78)}
 .mora-launch__brand--animated .mora-launch__symbol{animation:mora-symbol-circle 10s linear infinite;transform-origin:50% 50%;will-change:transform}
 .mora-launch__brand--animated .mora-launch__wordmark{animation:mora-name-arrive 1.4s cubic-bezier(.16,1,.3,1) both}
 @keyframes mora-symbol-circle{from{transform:rotateY(0deg)}to{transform:rotateY(360deg)}}
