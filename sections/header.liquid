@@ -155,6 +155,11 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+  {% if request.page_type == 'index' or collection.handle == 'all' %}
+    #shopify-section-{{ section.id }} .header-wrapper {
+      border-bottom: 2px solid #660033;
+    }
+  {% endif %}
 {%- endstyle -%}
 
 <script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
