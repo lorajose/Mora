@@ -14,7 +14,9 @@
     {%- endunless -%}
 
     <title>
-      {%- if request.page_type == 'index' -%}MORA{%- else -%}
+      {% if request.page_type == 'index' %}
+        MORA
+      {% else %}
       {{ page_title }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
       {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
