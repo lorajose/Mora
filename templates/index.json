@@ -2,7 +2,10 @@
   "sections": {
     "mora": {
       "type": "mora-launch",
-      "settings": {}
+      "settings": {
+        "animate_brand": true
+      },
+      "disabled": false
     },
     "products": {
       "type": "featured-collection",
@@ -39,11 +42,13 @@
         "paragraph",
         "email"
       ],
-      "settings": {}
+      "settings": {},
+      "disabled": true
     },
     "mora_wardrobe": {
       "type": "mora-interactive-rack",
-      "settings": {}
+      "settings": {},
+      "disabled": true
     }
   },
   "order": [
