@@ -8,6 +8,7 @@
 <nav class="header__inline-menu">
   <ul class="list-menu list-menu--inline" role="list">
     {%- for link in section.settings.menu.links -%}
+{%- if link.type == 'frontpage_link' -%}{%- continue -%}{%- endif -%}
 {%- if link.url contains '/pages/the-mora-family' -%}{%- continue -%}{%- endif -%}
       <li>
         {%- if link.links != blank -%}
