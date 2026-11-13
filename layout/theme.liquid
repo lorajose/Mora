@@ -321,7 +321,7 @@
         document.documentElement.classList.add('shopify-design-mode');
       }
     </script>
-  {% if collection.handle == 'all' or page.handle == 'contact' or page.handle == 'about' %}
+  {% if collection.handle == 'all' or page.handle == 'contact' or page.handle == 'about' or request.page_type == 'cart' %}
       <style>
         #MainContent,
         #MainContent .gradient {
