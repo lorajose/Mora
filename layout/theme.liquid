@@ -342,7 +342,9 @@
       {{ content_for_layout }}
     </main>
 
-    {% sections 'footer-group' %}
+    {% unless request.page_type == 'index' %}
+      {% sections 'footer-group' %}
+    {% endunless %}
     {% section 'mora-family-signup' %}
 
     <ul hidden>
