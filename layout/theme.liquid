@@ -321,6 +321,16 @@
         document.documentElement.classList.add('shopify-design-mode');
       }
     </script>
+  {% if collection.handle == 'all' or page.handle == 'contact' or page.handle == 'about' %}
+      <style>
+        #MainContent,
+        #MainContent .gradient {
+          --color-background: 232, 229, 223;
+          --gradient-background: #e8e5df;
+          background: #e8e5df;
+        }
+      </style>
+    {% endif %}
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
