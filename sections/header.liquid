@@ -176,7 +176,7 @@
       endif
 
       if render_search_left
-        render 'header-search', input_id: 'Search-In-Modal-1'
+        assign render_search_left = false
       endif
     -%}
 
@@ -281,7 +281,7 @@
           </localization-form>
         {%- endif -%}
       </div>
-      {% render 'header-search', input_id: 'Search-In-Modal' %}
+      
 
       {%- if shop.customer_accounts_enabled -%}
         <shopify-account
