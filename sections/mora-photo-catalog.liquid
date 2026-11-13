@@ -92,12 +92,22 @@ layout.append(gallery,info);mount.append(back,layout);
     const viewport=root.querySelector('.mora-catalog-slider__viewport');
     const group=root.querySelector('.mora-catalog-slider__group');
     const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-    let pointer=null,lastX=0,startX=0,moved=false,hover=false,focus=false,resumeAt=0,lastTime=0,frame;
-    const wrap=()=>{const width=group.getBoundingClientRect().width;if(width>0){if(viewport.scrollLeft>=width)viewport.scrollLeft-=width;else if(viewport.scrollLeft<=0)viewport.scrollLeft+=width;}};
-    viewport.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')hover=true;});
-    viewport.addEventListener('pointerleave',()=>{hover=false;});
-    viewport.addEventListener('focusin',()=>focus=true);
-    viewport.addEventListener('focusout',()=>focus=false);
+    let pointer=null,lastX=0,startX=0,moved=false,resumeAt=0,lastTime=0,frame,position=0,loopWidth=0;
+    const track=root.querySelector('.mora-catalog-slider__track');
+    const cover=()=>{
+      loopWidth=group.getBoundingClientRect().width;
+      if(loopWidth<=0)return;
+      while(track.scrollWidth<viewport.clientWidth+loopWidth*2){
+        const copy=group.cloneNode(true);copy.setAttribute('aria-hidden','true');
+        copy.querySelectorAll('a').forEach(a=>a.tabIndex=-1);
+        copy.querySelectorAll('img').forEach(img=>img.alt='');
+        track.append(copy);
+      }
+      position=viewport.scrollLeft||loopWidth;
+      viewport.scrollLeft=position;
+    };
+    const wrap=()=>{if(loopWidth>0){position=((viewport.scrollLeft%loopWidth)+loopWidth)%loopWidth+loopWidth;viewport.scrollLeft=position;}};
+    const resize=new ResizeObserver(cover);resize.observe(viewport);cover();
     viewport.addEventListener('dragstart',e=>e.preventDefault());
     viewport.addEventListener('pointerdown',e=>{
       if(!e.isPrimary||e.button!==0)return;
@@ -122,12 +132,12 @@ layout.append(gallery,info);mount.append(back,layout);
     viewport.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();viewport.scrollLeft+=e.key==='ArrowRight'?180:-180;wrap();resumeAt=performance.now()+3000;}});
     viewport.addEventListener('wheel',()=>resumeAt=performance.now()+3000,{passive:true});
     const tick=time=>{
-      if(!root.isConnected){cancelAnimationFrame(frame);return;}
+      if(!root.isConnected){cancelAnimationFrame(frame);resize.disconnect();return;}
       const delta=Math.min(time-lastTime,50);lastTime=time;
-      if(pointer===null&&!hover&&!focus&&!document.hidden&&!reduced.matches&&time>resumeAt){viewport.scrollLeft+=delta*.035;wrap();}
+      if(pointer===null&&!viewport.matches(':focus-visible')&&!document.hidden&&!reduced.matches&&time>resumeAt&&loopWidth>0){position+=delta*.035;if(position>=loopWidth*2)position-=loopWidth;viewport.scrollLeft=position;}
       frame=requestAnimationFrame(tick);
     };
-    viewport.scrollLeft=group.getBoundingClientRect().width;
+    cover();
     frame=requestAnimationFrame(tick);
   };
   document.querySelectorAll('.mora-catalog-slider').forEach(setup);
